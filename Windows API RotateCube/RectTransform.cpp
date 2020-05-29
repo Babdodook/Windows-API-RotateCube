@@ -71,10 +71,50 @@ void RectTransform::Translate(Vector3D other)
 	}
 }
 
+void RectTransform::Scale(Vector3D other)
+{
+	ViewPort_Convert();
+
+	for (int i = 0; i < 4; i++)
+	{
+		Vertex[i].x *= other.x;
+		Vertex[i].y *= other.y;
+		Vertex[i].z *= other.z;
+	}
+
+	Screen_Convert();
+}
+
 void RectTransform::DrawRect(HDC hdc)
 {
 	PlotLine(hdc, Vertex[0], Vertex[1]);
 	PlotLine(hdc, Vertex[0], Vertex[2]);
 	PlotLine(hdc, Vertex[1], Vertex[3]);
 	PlotLine(hdc, Vertex[2], Vertex[3]);
+}
+
+void RectTransform::ViewPort_Convert()
+{
+	Vector3D ViewPort_Postion[4];
+
+	for (int i = 0; i < 4; i++)
+	{
+		ViewPort_Postion[i] = Vertex[i];
+
+		ViewPort_Postion[i].x -= position.x;
+		ViewPort_Postion[i].y -= position.y;
+		ViewPort_Postion[i].y *= -1;
+
+		Vertex[i] = ViewPort_Postion[i];
+	}
+}
+
+void RectTransform::Screen_Convert()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		Vertex[i].x += position.x;
+		Vertex[i].y *= 1;
+		Vertex[i].y += position.y;
+	}
 }

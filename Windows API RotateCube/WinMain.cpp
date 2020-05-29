@@ -62,45 +62,78 @@ void Viewport_Convert()
 }
 
 static RECT window;
+char Vertex1[20] = "";
+char Vertex2[20] = "";
+char Vertex3[20] = "";
+char Vertex4[20] = "";
+RectTransform rect;
+Vector3D pos;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
-	RectTransform rect;
-	Vector3D pos;
-	static Vector3D translate;
-
+	PAINTSTRUCT ps;
 	
-	pos = Vector3D(window.right / 2, window.bottom / 2, 1);
-	rect.SetValue(pos, 200, 200);
+	static Vector3D vector3;
+
+	//memset(str, 0, sizeof(str));
 
 	switch (iMessage) {
 	case WM_CREATE:
 		GetClientRect(hWnd, &window);
+		pos = Vector3D(window.right / 2, window.bottom / 2, 1);
+		rect.SetValue(pos, 200, 200);
 		return 0;
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
 		case VK_LEFT:
-			translate = Vector3D(-10, 0, 0);
+			vector3 = Vector3D(-10, 0, 0);
+			rect.Translate(vector3);
 			break;
 		case VK_UP:
-			translate = Vector3D(0, 10, 0);
+			vector3 = Vector3D(0, -10, 0);
+			rect.Translate(vector3);
 			break;
 		case VK_RIGHT:
-			translate = Vector3D(10, 0, 0);
+			vector3 = Vector3D(10, 0, 0);
+			rect.Translate(vector3);
 			break;
 		case VK_DOWN:
-			translate = Vector3D(0, -10, 0);
+			vector3 = Vector3D(0, 10, 0);
+			rect.Translate(vector3);
+			break;
+		case VK_OEM_PLUS:
+			vector3 = Vector3D(1.1f, 1.1f, 1);
+			rect.Scale(vector3);
+			break;
+		case VK_OEM_MINUS:
+			vector3 = Vector3D(0.9f, 0.9f, 1);
+			rect.Scale(vector3);
 			break;
 		}
-		rect.Translate(translate);		
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:
-		hdc = GetDC(hWnd);
+		hdc = BeginPaint(hWnd, &ps);
+		memset(Vertex1, 0, sizeof(Vertex1));
+		memset(Vertex2, 0, sizeof(Vertex2));
+		memset(Vertex3, 0, sizeof(Vertex3));
+		memset(Vertex4, 0, sizeof(Vertex4));
+
+		sprintf(Vertex1, "Vertex1 (%.2f, %.2f, %.2f)", rect.Vertex[0].x, rect.Vertex[0].y, rect.Vertex[0].z);
+		sprintf(Vertex2, "Vertex2 (%.2f, %.2f, %.2f)", rect.Vertex[1].x, rect.Vertex[1].y, rect.Vertex[1].z);
+		sprintf(Vertex3, "Vertex3 (%.2f, %.2f, %.2f)", rect.Vertex[2].x, rect.Vertex[2].y, rect.Vertex[2].z);
+		sprintf(Vertex4, "Vertex4 (%.2f, %.2f, %.2f)", rect.Vertex[3].x, rect.Vertex[3].y, rect.Vertex[3].z);
+
+		TextOut(hdc, 10, 10, Vertex1, strlen(Vertex1));
+		TextOut(hdc, 10, 25, Vertex2, strlen(Vertex2));
+		TextOut(hdc, 10, 40, Vertex3, strlen(Vertex3));
+		TextOut(hdc, 10, 55, Vertex4, strlen(Vertex4));
 		rect.DrawRect(hdc);
-		ReleaseDC(hWnd, hdc);
+
+		
+		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);

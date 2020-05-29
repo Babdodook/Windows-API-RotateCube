@@ -16,8 +16,12 @@ public:
 	Vector3D ZRotate(Vector3D other);
 	*/
 
+	// 이동, 회전, 크기 변환
 	void Translate(Vector3D other);
-	//Vector3D Scale(Vector3D other);
+	void Scale(Vector3D other);
+
+	void ViewPort_Convert();
+	void Screen_Convert();
 
 	void DrawRect(HDC hdc);
 
