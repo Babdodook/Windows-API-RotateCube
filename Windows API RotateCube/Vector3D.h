@@ -1,5 +1,7 @@
 #pragma once
 
+//#include"Matrix4X4.h"
+
 class Vector3D {
 public:
 	Vector3D();
@@ -11,6 +13,7 @@ public:
 	void SetPosition(float _x, float _y, float _z);
 
 	Vector3D& operator=(const Vector3D& other);
+	//Vector3D& operator*(const Matrix4X4& other);
 
 	float x;
 	float y;

@@ -139,14 +139,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Basics.cpp" />
-    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Matrix4X4.cpp" />
     <ClCompile Include="RectTransform.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basics.h" />
-    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Matrix4X4.h" />
     <ClInclude Include="RectTransform.h" />
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>

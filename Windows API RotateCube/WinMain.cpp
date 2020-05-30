@@ -72,7 +72,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	HDC hdc;
 	PAINTSTRUCT ps;
 	
-	static Vector3D vector3;
+	static Vector3D translate;
+	static Vector3D scale;
+	static Vector3D Angle;
 
 	//memset(str, 0, sizeof(str));
 
@@ -86,32 +88,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_LEFT:
-			//vector3 = Vector3D(-10, 0, 0);
-			//rect.Translate(vector3);
-			rect.XRotate();
+			//translate = Vector3D(-1, 0, 0);
+			Angle = Vector3D(0, 0, -10);
 			break;
 		case VK_UP:
-			//vector3 = Vector3D(0, -10, 0);
-			//rect.Translate(vector3);
-			rect.YRotate();
+			translate = Vector3D(0, -1, 0);
 			break;
 		case VK_RIGHT:
-			vector3 = Vector3D(10, 0, 0);
-			rect.Translate(vector3);
+			translate = Vector3D(1, 0, 0);
 			break;
 		case VK_DOWN:
-			vector3 = Vector3D(0, 10, 0);
-			rect.Translate(vector3);
+			translate = Vector3D(0, 1, 0);
 			break;
 		case VK_OEM_PLUS:
-			vector3 = Vector3D(1.096f, 1.096f, 1);
-			rect.Scale(vector3);
+			scale = Vector3D(1.096f, 1.096f, 1);
 			break;
 		case VK_OEM_MINUS:
-			vector3 = Vector3D(0.96f, 0.96f, 1);
-			rect.Scale(vector3);
+			scale = Vector3D(0.96f, 0.96f, 1);
 			break;
 		}
+		scale = Vector3D(1, 1, 1);
+		
+		rect.SetFormValue(translate, scale, Angle);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:

@@ -44,3 +44,15 @@ Vector3D& Vector3D::operator=(const Vector3D& other)
 
 	return *this;
 }
+
+/*
+Vector3D& Vector3D::operator*(const Matrix4X4& other)
+{
+	this->x = (x * other.Xaxis.x) + (y * other.Yaxis.x) + (z * other.Zaxis.x) + (w * other.Pos.x);
+	this->y = (x * other.Xaxis.y) + (y * other.Yaxis.y) + (z * other.Zaxis.y) + (w * other.Pos.y);
+	this->z = (x * other.Xaxis.z) + (y * other.Yaxis.z) + (z * other.Zaxis.z) + (w * other.Pos.z);
+	this->w = (x * other.Xaxis.w) + (y * other.Yaxis.w) + (z * other.Zaxis.w) + (w * other.Pos.w);
+
+	return *this;
+}
+*/
