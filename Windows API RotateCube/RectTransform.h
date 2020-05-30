@@ -1,6 +1,9 @@
 #pragma once
+#define _USE_MATH_DEFINES
+
 #include"Matrix.h"
 #include<Windows.h>
+#include<math.h>
 
 class RectTransform {
 public:
@@ -10,11 +13,11 @@ public:
 
 	void SetValue(Vector3D _position, float _Width, float _Height);
 
-	/*
-	Vector3D XRotate(Vector3D other);
-	Vector3D YRotate(Vector3D other);
-	Vector3D ZRotate(Vector3D other);
-	*/
+	
+	void XRotate();
+	void YRotate();
+	//Vector3D ZRotate(Vector3D other);
+	
 
 	// 이동, 회전, 크기 변환
 	void Translate(Vector3D other);

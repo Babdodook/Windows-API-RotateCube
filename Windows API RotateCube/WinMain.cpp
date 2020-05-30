@@ -9,9 +9,6 @@
 #include"RectTransform.h"
 #include"Vector3D.h"
 
-// degree -> radian
-#define DEG2RAD M_PI/180
-
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	//CALLBACK 매크로
 HINSTANCE g_hInst;					//인스턴스 핸들
 LPCTSTR lpszClass = TEXT("NONE");	 //제목 표시줄에 표시되는 내용
@@ -62,10 +59,11 @@ void Viewport_Convert()
 }
 
 static RECT window;
-char Vertex1[20] = "";
-char Vertex2[20] = "";
-char Vertex3[20] = "";
-char Vertex4[20] = "";
+char Vertex1[50] = "";
+char Vertex2[50] = "";
+char Vertex3[50] = "";
+char Vertex4[50] = "";
+char Position[50] = "";
 RectTransform rect;
 Vector3D pos;
 
@@ -88,12 +86,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_LEFT:
-			vector3 = Vector3D(-10, 0, 0);
-			rect.Translate(vector3);
+			//vector3 = Vector3D(-10, 0, 0);
+			//rect.Translate(vector3);
+			rect.XRotate();
 			break;
 		case VK_UP:
-			vector3 = Vector3D(0, -10, 0);
-			rect.Translate(vector3);
+			//vector3 = Vector3D(0, -10, 0);
+			//rect.Translate(vector3);
+			rect.YRotate();
 			break;
 		case VK_RIGHT:
 			vector3 = Vector3D(10, 0, 0);
@@ -104,11 +104,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			rect.Translate(vector3);
 			break;
 		case VK_OEM_PLUS:
-			vector3 = Vector3D(1.1f, 1.1f, 1);
+			vector3 = Vector3D(1.096f, 1.096f, 1);
 			rect.Scale(vector3);
 			break;
 		case VK_OEM_MINUS:
-			vector3 = Vector3D(0.9f, 0.9f, 1);
+			vector3 = Vector3D(0.96f, 0.96f, 1);
 			rect.Scale(vector3);
 			break;
 		}
@@ -120,16 +120,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		memset(Vertex2, 0, sizeof(Vertex2));
 		memset(Vertex3, 0, sizeof(Vertex3));
 		memset(Vertex4, 0, sizeof(Vertex4));
+		memset(Position, 0, sizeof(Position));
 
-		sprintf(Vertex1, "Vertex1 (%.2f, %.2f, %.2f)", rect.Vertex[0].x, rect.Vertex[0].y, rect.Vertex[0].z);
-		sprintf(Vertex2, "Vertex2 (%.2f, %.2f, %.2f)", rect.Vertex[1].x, rect.Vertex[1].y, rect.Vertex[1].z);
-		sprintf(Vertex3, "Vertex3 (%.2f, %.2f, %.2f)", rect.Vertex[2].x, rect.Vertex[2].y, rect.Vertex[2].z);
-		sprintf(Vertex4, "Vertex4 (%.2f, %.2f, %.2f)", rect.Vertex[3].x, rect.Vertex[3].y, rect.Vertex[3].z);
+		sprintf(Position, "Position (%.1f, %.1f, %.1f)", rect.position.x, rect.position.y, rect.position.z);
+		sprintf(Vertex1, "Vertex1 (%.1f, %.1f, %.1f)", rect.Vertex[0].x, rect.Vertex[0].y, rect.Vertex[0].z);
+		sprintf(Vertex2, "Vertex2 (%.1f, %.1f, %.1f)", rect.Vertex[1].x, rect.Vertex[1].y, rect.Vertex[1].z);
+		sprintf(Vertex3, "Vertex3 (%.1f, %.1f, %.1f)", rect.Vertex[2].x, rect.Vertex[2].y, rect.Vertex[2].z);
+		sprintf(Vertex4, "Vertex4 (%.1f, %.1f, %.1f)", rect.Vertex[3].x, rect.Vertex[3].y, rect.Vertex[3].z);
+		
 
-		TextOut(hdc, 10, 10, Vertex1, strlen(Vertex1));
-		TextOut(hdc, 10, 25, Vertex2, strlen(Vertex2));
-		TextOut(hdc, 10, 40, Vertex3, strlen(Vertex3));
-		TextOut(hdc, 10, 55, Vertex4, strlen(Vertex4));
+		TextOut(hdc, 10, 10, Position, strlen(Position));
+		TextOut(hdc, 10, 25, Vertex1, strlen(Vertex1));
+		TextOut(hdc, 10, 40, Vertex2, strlen(Vertex2));
+		TextOut(hdc, 10, 55, Vertex3, strlen(Vertex3));
+		TextOut(hdc, 10, 70, Vertex4, strlen(Vertex4));
 		rect.DrawRect(hdc);
 
 		
