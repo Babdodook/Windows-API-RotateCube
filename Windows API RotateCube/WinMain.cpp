@@ -67,51 +67,77 @@ char Position[50] = "";
 RectTransform rect;
 Vector3D pos;
 
+static Vector3D Translate;
+static Vector3D Rotate;
+static Vector3D Scale;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
 	PAINTSTRUCT ps;
-	
-	static Vector3D translate;
-	static Vector3D scale;
-	static Vector3D Angle;
-
-	//memset(str, 0, sizeof(str));
 
 	switch (iMessage) {
 	case WM_CREATE:
 		GetClientRect(hWnd, &window);
 		pos = Vector3D(window.right / 2, window.bottom / 2, 1);
 		rect.SetValue(pos, 200, 200);
+		Translate = Vector3D(0, 0, 0);
+		Rotate = Vector3D(0, 0, 0);
+		Scale = Vector3D(1, 1, 1);
 		return 0;
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
 		case VK_LEFT:
-			translate = Vector3D(-10, 0, 0);
-			Angle = Vector3D(0, 0, 10);
-			scale = Vector3D(1, 1, 1);
+			Translate.x = 10;
+			//Rotate.y = 5;
 			break;
 		case VK_UP:
-			translate = Vector3D(0, -1, 0);
+			Rotate.x = 5;
 			break;
 		case VK_RIGHT:
-			translate = Vector3D(1, 0, 0);
+			Rotate.y = -5;
 			break;
 		case VK_DOWN:
-			translate = Vector3D(0, 1, 0);
+			Rotate.x = -5;
 			break;
 		case VK_OEM_PLUS:
-			scale = Vector3D(1.096f, 1.096f, 1);
+			Scale = Vector3D(1.096f, 1.096f, 1.096f);
 			break;
 		case VK_OEM_MINUS:
-			scale = Vector3D(0.96f, 0.96f, 1);
+			Scale = Vector3D(0.96f, 0.96f, 0.96f);
 			break;
 		}
 		
-		rect.SetFormValue(translate, Angle, scale);
+		rect.SetFormValue(Translate, Rotate, Scale);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
+	case WM_KEYUP:
+		switch (wParam)
+		{
+		case VK_LEFT:
+			Translate.x = 0;
+			//Rotate.y = 0;
+			break;
+		case VK_UP:
+			Rotate.x = 0;
+			break;
+		case VK_RIGHT:
+			Rotate.y = 0;
+			break;
+		case VK_DOWN:
+			Rotate.x = 0;
+			break;
+		case VK_OEM_PLUS:
+			Scale = Vector3D(1, 1, 1);
+			break;
+		case VK_OEM_MINUS:
+			Scale = Vector3D(1, 1, 1);
+			break;
+		}
+
+		return 0;
+		//InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		memset(Vertex1, 0, sizeof(Vertex1));

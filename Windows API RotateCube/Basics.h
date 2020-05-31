@@ -10,5 +10,5 @@
 #define PI 3.14
 #define DEG2RAD PI/180
 
-void PlotLine(HDC hdc, Vector3D Start, Vector3D Destination);
+void PlotLine(HDC hdc, int StartX, int StartY, int EndX, int EndY);
 void DrawLine(HDC hdc, Vector3D Start, Vector3D End);

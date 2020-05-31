@@ -136,11 +136,9 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationYawPitchRoll(float Yaw, float Pitch, float
 
 Matrix4X4 Matrix4X4::Matrix4X4TRS(Vector3D translate, Vector3D angle, Vector3D scale)
 {
-	Matrix4X4 matTRS = Matrix4X4Translation(translate.x, translate.y, translate.z) *
-		Matrix4X4RotationYawPitchRoll(angle.y, angle.x, angle.z) *
-		Matrix4X4Scaling(scale.x, scale.y, scale.z);
+	Matrix4X4 TRS = Matrix4X4Translation(translate.x, translate.y, translate.z) * Matrix4X4RotationYawPitchRoll(angle.y, angle.x, angle.z) * Matrix4X4Scaling(scale.x, scale.y, scale.z);
 		
-	return matTRS;
+	return TRS;
 }
 
 Matrix4X4& Matrix4X4::operator*(const Matrix4X4& other)

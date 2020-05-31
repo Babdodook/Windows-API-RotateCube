@@ -1,33 +1,33 @@
 #pragma once
 #include"Basics.h"
 
-void PlotLine(HDC hdc, Vector3D Start, Vector3D Destination)
+void PlotLine(HDC hdc, int StartX, int StartY, int EndX, int EndY)//Vector3D Start, Vector3D Destination)
 {
-	float dx = abs(Destination.x - Start.x);
-	float sx = Start.x < Destination.x ? 1 : -1;
-	float dy = -abs(Destination.y - Start.y);
-	float sy = Start.y < Destination.y ? 1 : -1;
-	float err = dx + dy;
+	int dx = abs(EndX - StartX);
+	int sx = StartX < EndX ? 1 : -1;
+	int dy = -abs(EndY - StartY);
+	int sy = StartY < EndY ? 1 : -1;
+	int err = dx + dy;
 
-	int MaxIndex = Start.x;
+	
 
 	while (true)
 	{
-		SetPixel(hdc, Start.x, Start.y, RGB(0, 0, 255));
-
-		if (Start.x == Destination.x && Start.y == Destination.y)
+		SetPixel(hdc, StartX, StartY, RGB(0, 0, 255));
+		
+		if (StartX == EndX && StartY == EndY)
 			break;
 
-		float e2 = 2 * err;
+		int e2 = 2 * err;
 		if (e2 >= dy)
 		{
 			err += dy;
-			Start.x += sx;
+			StartX += sx;
 		}
 		if (e2 <= dx)
 		{
 			err += dx;
-			Start.y += sy;
+			StartY += sy;
 		}
 	}
 }
