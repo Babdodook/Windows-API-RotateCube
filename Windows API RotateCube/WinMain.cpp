@@ -88,8 +88,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_LEFT:
-			//translate = Vector3D(-1, 0, 0);
-			Angle = Vector3D(0, 0, -10);
+			translate = Vector3D(0, 0, 0);
+			Angle = Vector3D(0, 0, 10);
 			break;
 		case VK_UP:
 			translate = Vector3D(0, -1, 0);
@@ -109,7 +109,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		}
 		scale = Vector3D(1, 1, 1);
 		
-		rect.SetFormValue(translate, scale, Angle);
+		rect.SetFormValue(translate, Angle, scale);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:

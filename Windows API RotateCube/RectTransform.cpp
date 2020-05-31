@@ -47,10 +47,27 @@ void RectTransform::SetValue(Vector3D _position, float _Width, float _Height)
 	matTRS.TransformWorldPosition = position;
 }
 
-void RectTransform::SetFormValue(Vector3D translate, Vector3D scale, Vector3D Angle)
+void RectTransform::SetFormValue(Vector3D translate, Vector3D Angle, Vector3D scale)
 {
+	Vector3D ViewPort_position[4];
+
 	for (int i = 0; i < 4; i++)
-		Vertex[i] = matTRS.Matrix4X4TRS(translate, scale, Angle) * Vertex[i];
+	{
+		ViewPort_position[i] = Vertex[i];
+
+		ViewPort_position[i].x = position.x - ViewPort_position[i].x;
+		ViewPort_position[i].y = (position.y - ViewPort_position[i].y);
+		ViewPort_position[i].y *= -1;
+
+		Vertex[i] = matTRS.Matrix4X4TRS(translate, Angle, scale) * ViewPort_position[i];
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		Vertex[i].x = (position.x + Vertex[i].x);
+		Vertex[i].y *= -1;
+		Vertex[i].y = (position.y + Vertex[i].y);
+	}
 }
 
 void RectTransform::DrawRect(HDC hdc)

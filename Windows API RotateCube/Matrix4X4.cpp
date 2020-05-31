@@ -82,10 +82,10 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationX(float Angle)
 {
 	Matrix4X4 pOut;
 
-	pOut.Yaxis.y = cos(Angle * DEG2RAD);
-	pOut.Yaxis.z = sin(Angle * DEG2RAD);
-	pOut.Zaxis.y = -sin(Angle * DEG2RAD);
-	pOut.Zaxis.z = cos(Angle * DEG2RAD);
+	pOut.Yaxis.y = cosf(Angle * DEG2RAD);
+	pOut.Yaxis.z = sinf(Angle * DEG2RAD);
+	pOut.Zaxis.y = -sinf(Angle * DEG2RAD);
+	pOut.Zaxis.z = cosf(Angle * DEG2RAD);
 
 	return pOut;
 }
@@ -94,10 +94,10 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationY(float Angle)
 {
 	Matrix4X4 pOut;
 
-	pOut.Xaxis.x = cos(Angle * DEG2RAD);
-	pOut.Xaxis.z = -sin(Angle * DEG2RAD);
-	pOut.Zaxis.x = sin(Angle * DEG2RAD);
-	pOut.Zaxis.z = cos(Angle * DEG2RAD);
+	pOut.Xaxis.x = cosf(Angle * DEG2RAD);
+	pOut.Xaxis.z = -sinf(Angle * DEG2RAD);
+	pOut.Zaxis.x = sinf(Angle * DEG2RAD);
+	pOut.Zaxis.z = cosf(Angle * DEG2RAD);
 
 	return pOut;
 }
@@ -106,10 +106,10 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationZ(float Angle)
 {
 	Matrix4X4 pOut;
 
-	pOut.Xaxis.x = cos(Angle * DEG2RAD);
-	pOut.Xaxis.y = sin(Angle * DEG2RAD);
-	pOut.Yaxis.x = -sin(Angle * DEG2RAD);
-	pOut.Yaxis.y = cos(Angle * DEG2RAD);
+	pOut.Xaxis.x = cosf(Angle * DEG2RAD);
+	pOut.Xaxis.y = sinf(Angle * DEG2RAD);
+	pOut.Yaxis.x = -sinf(Angle * DEG2RAD);
+	pOut.Yaxis.y = cosf(Angle * DEG2RAD);
 
 	return pOut;
 }
@@ -180,10 +180,10 @@ Vector3D Matrix4X4::operator*(const Vector3D& other)
 	Vector3D newVector;
 	newVector = other;
 
-	newVector.x = (int)((other.x * Xaxis.x) + (other.y * Yaxis.x) + (other.z * Zaxis.x) + (other.w * Pos.x));
-	newVector.y = (int)((other.x * Xaxis.y) + (other.y * Yaxis.y) + (other.z * Zaxis.y) + (other.w * Pos.y));
-	newVector.z = (int)((other.x * Xaxis.z) + (other.y * Yaxis.z) + (other.z * Zaxis.z) + (other.w * Pos.z));
-	newVector.w = (int)((other.x * Xaxis.w) + (other.y * Yaxis.w) + (other.z * Zaxis.w) + (other.w * Pos.w));
+	newVector.x = ((other.x * Xaxis.x) + (other.y * Yaxis.x) + (other.z * Zaxis.x) + (other.w * Pos.x));
+	newVector.y = ((other.x * Xaxis.y) + (other.y * Yaxis.y) + (other.z * Zaxis.y) + (other.w * Pos.y));
+	newVector.z = ((other.x * Xaxis.z) + (other.y * Yaxis.z) + (other.z * Zaxis.z) + (other.w * Pos.z));
+	newVector.w = ((other.x * Xaxis.w) + (other.y * Yaxis.w) + (other.z * Zaxis.w) + (other.w * Pos.w));
 
 	return newVector;
 }
