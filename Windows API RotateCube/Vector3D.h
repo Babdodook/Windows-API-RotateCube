@@ -11,6 +11,8 @@ public:
 	~Vector3D();
 
 	void SetPosition(float _x, float _y, float _z);
+	void Viewport_Convert(Vector3D origin);
+	void Screen_Convert(Vector3D origin);
 
 	Vector3D& operator=(const Vector3D& other);
 	//Vector3D& operator*(const Matrix4X4& other);

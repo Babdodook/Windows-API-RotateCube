@@ -18,9 +18,6 @@ Matrix4X4::Matrix4X4(Vector3D _Xaxis, Vector3D _Yaxis, Vector3D _Zaxis, Vector3D
 	Pos = _Pos;
 }
 
-
-
-
 Matrix4X4::~Matrix4X4()
 {
 
@@ -56,6 +53,7 @@ Vector3D Matrix4X4::Screen_Convert(Vector3D vertex)
 Matrix4X4 Matrix4X4::Matrix4X4Translation(float x, float y, float z)
 {
 	Matrix4X4 pOut;
+	pOut.Init();
 
 	pOut.Pos.x += x;
 	pOut.Pos.y += y;
@@ -67,6 +65,7 @@ Matrix4X4 Matrix4X4::Matrix4X4Translation(float x, float y, float z)
 Matrix4X4 Matrix4X4::Matrix4X4Scaling(float x, float y, float z)
 {
 	Matrix4X4 pOut;
+	pOut.Init();
 
 	pOut.Xaxis.x *= x;
 	pOut.Yaxis.y *= y;
@@ -81,6 +80,7 @@ Matrix4X4 Matrix4X4::Matrix4X4Scaling(float x, float y, float z)
 Matrix4X4 Matrix4X4::Matrix4X4RotationX(float Angle)
 {
 	Matrix4X4 pOut;
+	pOut.Init();
 
 	pOut.Yaxis.y = cosf(Angle * DEG2RAD);
 	pOut.Yaxis.z = sinf(Angle * DEG2RAD);
@@ -93,6 +93,7 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationX(float Angle)
 Matrix4X4 Matrix4X4::Matrix4X4RotationY(float Angle)
 {
 	Matrix4X4 pOut;
+	pOut.Init();
 
 	pOut.Xaxis.x = cosf(Angle * DEG2RAD);
 	pOut.Xaxis.z = -sinf(Angle * DEG2RAD);
@@ -105,6 +106,7 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationY(float Angle)
 Matrix4X4 Matrix4X4::Matrix4X4RotationZ(float Angle)
 {
 	Matrix4X4 pOut;
+	pOut.Init();
 
 	pOut.Xaxis.x = cosf(Angle * DEG2RAD);
 	pOut.Xaxis.y = sinf(Angle * DEG2RAD);
@@ -134,7 +136,10 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationYawPitchRoll(float Yaw, float Pitch, float
 
 Matrix4X4 Matrix4X4::Matrix4X4TRS(Vector3D translate, Vector3D angle, Vector3D scale)
 {
-	Matrix4X4 matTRS = Matrix4X4Scaling(scale.x, scale.y, scale.z)* Matrix4X4RotationYawPitchRoll(angle.y, angle.x, angle.z)* Matrix4X4Translation(translate.x, translate.y, translate.z);
+	Matrix4X4 matTRS = Matrix4X4Translation(translate.x, translate.y, translate.z) *
+		Matrix4X4RotationYawPitchRoll(angle.y, angle.x, angle.z) *
+		Matrix4X4Scaling(scale.x, scale.y, scale.z);
+		
 	return matTRS;
 }
 

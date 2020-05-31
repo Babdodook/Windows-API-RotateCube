@@ -36,6 +36,20 @@ void Vector3D::SetPosition(float _x, float _y, float _z)
 	z = _z;
 }
 
+void Vector3D::Viewport_Convert(Vector3D origin)
+{
+	this->x -= origin.x;
+	this->y -= origin.y;
+	this->y *= -1;
+}
+
+void Vector3D::Screen_Convert(Vector3D origin)
+{
+	this->x += origin.x;
+	this->y *= -1;
+	this->y += origin.y;
+}
+
 Vector3D& Vector3D::operator=(const Vector3D& other)
 {
 	this->x = other.x;

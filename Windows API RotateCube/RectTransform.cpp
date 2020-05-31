@@ -49,31 +49,26 @@ void RectTransform::SetValue(Vector3D _position, float _Width, float _Height)
 
 void RectTransform::SetFormValue(Vector3D translate, Vector3D Angle, Vector3D scale)
 {
-	Vector3D ViewPort_position[4];
-
 	for (int i = 0; i < 4; i++)
 	{
-		ViewPort_position[i] = Vertex[i];
+		Vertex[i].Viewport_Convert(position);
 
-		ViewPort_position[i].x = position.x - ViewPort_position[i].x;
-		ViewPort_position[i].y = (position.y - ViewPort_position[i].y);
-		ViewPort_position[i].y *= -1;
+		Vertex[i] = matTRS.Matrix4X4RotationZ(Angle.z) * Vertex[i];
 
-		Vertex[i] = matTRS.Matrix4X4TRS(translate, Angle, scale) * ViewPort_position[i];
-	}
-
-	for (int i = 0; i < 4; i++)
-	{
-		Vertex[i].x = (position.x + Vertex[i].x);
-		Vertex[i].y *= -1;
-		Vertex[i].y = (position.y + Vertex[i].y);
+		//Vertex[i] = matTRS.Matrix4X4TRS(translate, Angle, scale) * Vertex[i];
+		Vertex[i].Screen_Convert(position);
 	}
 }
 
 void RectTransform::DrawRect(HDC hdc)
 {
-	PlotLine(hdc, Vertex[0], Vertex[1]);
-	PlotLine(hdc, Vertex[0], Vertex[2]);
-	PlotLine(hdc, Vertex[1], Vertex[3]);
-	PlotLine(hdc, Vertex[2], Vertex[3]);
+	//SetPixel(hdc, Vertex[0].x, Vertex[0].y, RGB(0, 0, 255));
+	//SetPixel(hdc, Vertex[1].x, Vertex[1].y, RGB(0, 0, 255));
+	//SetPixel(hdc, Vertex[2].x, Vertex[2].y, RGB(0, 0, 255));
+	//SetPixel(hdc, Vertex[3].x, Vertex[4].y, RGB(0, 0, 255));
+	//PlotLine(hdc, Vertex[0], Vertex[1]);
+	DrawLine(hdc, Vertex[0], Vertex[1]);
+	//PlotLine(hdc, Vertex[0], Vertex[2]);
+	//PlotLine(hdc, Vertex[1], Vertex[3]);
+	//PlotLine(hdc, Vertex[2], Vertex[3]);
 }
