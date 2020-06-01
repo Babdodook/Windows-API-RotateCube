@@ -51,13 +51,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return (int)Message.wParam;				//탈출 코드. 프로그램 종료
 }
 
-
-
-void Viewport_Convert()
-{
-
-}
-
 static RECT window;
 char Vertex1[50] = "";
 char Vertex2[50] = "";
