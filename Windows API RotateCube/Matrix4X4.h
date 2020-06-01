@@ -38,5 +38,6 @@ public:
 	Vector3D TransformWorldPosition;
 
 	Matrix4X4& operator*(const Matrix4X4& other);
-	Vector3D operator*(const Vector3D& other);
+	//Vector3D operator*(const Vector3D& other);
+	Vector3D operator*(const Vector3D other);
 };

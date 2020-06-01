@@ -53,11 +53,19 @@ void RectTransform::SetValue(Vector3D _position, float _Width, float _Height)
 
 void RectTransform::SetFormValue(Vector3D translate, Vector3D Angle, Vector3D scale)
 {
+	//Matrix4X4 matT;
+	//matT.Init();
 	for (int i = 0; i < 4; i++)
 	{
 		Vertex[i].Viewport_Convert(position);
 
-		//Vertex[i] = matTRS.Matrix4X4RotationZ(Angle.z) * Vertex[i];
+		//Vertex[i].x += translate.x;
+		//Vertex[i].y += translate.y;
+		//Vertex[i].z += translate.z;
+		//matTRS=matTRS.Matrix4X4Translation(-50, 0, 0);
+		//matT = matTRS.Matrix4X4Translation(translate.x, translate.y, translate.z);
+		//Vertex[i] = matTRS * Vertex[i];
+		//Vertex[i] = matTRS.Matrix4X4Translation(translate.x, translate.y, translate.z) * Vertex[i];
 
 		Vertex[i] = matTRS.Matrix4X4TRS(translate, Angle, scale) * Vertex[i];
 		Vertex[i].Screen_Convert(position);

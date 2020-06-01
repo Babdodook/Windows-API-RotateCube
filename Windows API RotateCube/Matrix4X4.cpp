@@ -55,9 +55,9 @@ Matrix4X4 Matrix4X4::Matrix4X4Translation(float x, float y, float z)
 	Matrix4X4 pOut;
 	pOut.Init();
 
-	pOut.Pos.x += x;
-	pOut.Pos.y += y;
-	pOut.Pos.z += z;
+	pOut.Pos.x = x;
+	pOut.Pos.y = y;
+	pOut.Pos.z = z;
 
 	return pOut;
 }
@@ -136,8 +136,8 @@ Matrix4X4 Matrix4X4::Matrix4X4RotationYawPitchRoll(float Yaw, float Pitch, float
 
 Matrix4X4 Matrix4X4::Matrix4X4TRS(Vector3D translate, Vector3D angle, Vector3D scale)
 {
-	Matrix4X4 TRS = Matrix4X4Translation(translate.x, translate.y, translate.z) * Matrix4X4RotationYawPitchRoll(angle.y, angle.x, angle.z) * Matrix4X4Scaling(scale.x, scale.y, scale.z);
-		
+	Matrix4X4 TRS = (Matrix4X4Translation(translate.x, translate.y, translate.z) * Matrix4X4RotationYawPitchRoll(angle.y, angle.x, angle.z))* Matrix4X4Scaling(scale.x, scale.y, scale.z);
+
 	return TRS;
 }
 
@@ -178,7 +178,22 @@ Matrix4X4& Matrix4X4::operator*(const Matrix4X4& other)
 	return *this;
 }
 
+/*
 Vector3D Matrix4X4::operator*(const Vector3D& other)
+{
+	Vector3D newVector;
+	newVector = other;
+
+	newVector.x = ((other.x * Xaxis.x) + (other.y * Yaxis.x) + (other.z * Zaxis.x) + (other.w * Pos.x));
+	newVector.y = ((other.x * Xaxis.y) + (other.y * Yaxis.y) + (other.z * Zaxis.y) + (other.w * Pos.y));
+	newVector.z = ((other.x * Xaxis.z) + (other.y * Yaxis.z) + (other.z * Zaxis.z) + (other.w * Pos.z));
+	newVector.w = ((other.x * Xaxis.w) + (other.y * Yaxis.w) + (other.z * Zaxis.w) + (other.w * Pos.w));
+
+	return newVector;
+}
+*/
+
+Vector3D Matrix4X4::operator*(const Vector3D other)
 {
 	Vector3D newVector;
 	newVector = other;
