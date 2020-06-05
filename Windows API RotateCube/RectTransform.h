@@ -9,14 +9,14 @@ public:
 	~RectTransform();
 
 	void SetValue(Vector3D _position, float _Width, float _Height);
-	void SetFormValue(Vector3D translate, Vector3D scale, Vector3D Angle);
+	void SetFormValue(Vector3D translate, Vector3D angle, Vector3D scale);
 
 	void DrawRect(HDC hdc);
 
 	Vector3D position;
 	Vector3D Vertex[8];
 
-	Matrix4X4 matTRS;
+	MATRIX4X4 matTRS;
 
 	float Width;
 	float Height;

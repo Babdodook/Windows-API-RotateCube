@@ -9,8 +9,6 @@ void PlotLine(HDC hdc, int StartX, int StartY, int EndX, int EndY)//Vector3D Sta
 	int sy = StartY < EndY ? 1 : -1;
 	int err = dx + dy;
 
-	
-
 	while (true)
 	{
 		SetPixel(hdc, StartX, StartY, RGB(0, 0, 255));

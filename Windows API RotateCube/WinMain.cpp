@@ -63,7 +63,6 @@ Vector3D pos;
 Vector3D Translate;
 Vector3D Rotate;
 Vector3D Scale;
-Matrix4X4 TestMat;
 Vector3D resultVector;
 
 char mat1[50] = "";
@@ -85,7 +84,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		Translate = Vector3D(0, 0, 0);
 		Rotate = Vector3D(0, 0, 0);
 		Scale = Vector3D(1, 1, 1);
-		TestMat.Init();
 		resultVector = Vector3D(rect.Vertex[0].x, rect.Vertex[0].y, rect.Vertex[0].z);
 		return 0;
 	case WM_KEYDOWN:
@@ -99,7 +97,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_UP:
 			//Translate.y = 1;
-			Rotate.x = 5;
+			Rotate.x = -5;
 			break;
 		case VK_RIGHT:
 			//Translate.x = 1;
@@ -118,7 +116,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		}
 
 		rect.SetFormValue(Translate, Rotate, Scale);
-		InvalidateRect(hWnd, NULL, TRUE);
+		InvalidateRect(hWnd, NULL, FALSE);
 		return 0;
 	case WM_KEYUP:
 		switch (wParam)
@@ -147,10 +145,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 
+		InvalidateRect(hWnd, NULL, FALSE);
 		return 0;
-		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
+		static HDC hdc, MemDC;
+		static HBITMAP BackBit, oldBackBit;
+		static RECT bufferRT;
+		MemDC = BeginPaint(hWnd, &ps);
+
+		GetClientRect(hWnd, &bufferRT);
+		hdc = CreateCompatibleDC(MemDC);
+		BackBit = CreateCompatibleBitmap(MemDC, bufferRT.right, bufferRT.bottom);
+		oldBackBit = (HBITMAP)SelectObject(hdc, BackBit);
+		PatBlt(hdc, 0, 0, bufferRT.right, bufferRT.bottom, WHITENESS);
 
 		sprintf(Position, "Position (%.1f, %.1f, %.1f)", rect.position.x, rect.position.y, rect.position.z);
 		sprintf(Vertex1, "Vertex1 (%.1f, %.1f, %.1f)", rect.Vertex[0].x, rect.Vertex[0].y, rect.Vertex[0].z);
@@ -163,22 +170,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		TextOut(hdc, 10, 40, Vertex2, strlen(Vertex2));
 		TextOut(hdc, 10, 55, Vertex3, strlen(Vertex3));
 		TextOut(hdc, 10, 70, Vertex4, strlen(Vertex4));
+
 		rect.DrawRect(hdc);
 
-		/*
-		sprintf(mat1, "mat1 (%.1f, %.1f, %.1f)", rect.matTRS.Xaxis.x, rect.matTRS.Xaxis.y, rect.matTRS.Xaxis.z);
-		sprintf(mat2, "mat2 (%.1f, %.1f, %.1f)", rect.matTRS.Yaxis.x, rect.matTRS.Yaxis.y, rect.matTRS.Yaxis.z);
-		sprintf(mat3, "mat3 (%.1f, %.1f, %.1f)", rect.matTRS.Zaxis.x, rect.matTRS.Zaxis.y, rect.matTRS.Zaxis.z);
-		sprintf(mat4, "mat4 (%.1f, %.1f, %.1f)", rect.matTRS.Pos.x, rect.matTRS.Pos.y, rect.matTRS.Pos.z);
-		sprintf(resultVec, "resultVec (%.1f, %.1f, %.1f)", resultVector.x, resultVector.y, resultVector.z);
-
-		TextOut(hdc, 10, 100, mat1, strlen(mat1));
-		TextOut(hdc, 10, 115, mat2, strlen(mat2));
-		TextOut(hdc, 10, 130, mat3, strlen(mat3));
-		TextOut(hdc, 10, 145, mat4, strlen(mat4));
-		TextOut(hdc, 10, 160, resultVec, strlen(resultVec));
-		*/
-
+		GetClientRect(hWnd, &bufferRT);
+		BitBlt(MemDC, 0, 0, bufferRT.right, bufferRT.bottom, hdc, 0, 0, SRCCOPY);
+		SelectObject(hdc, oldBackBit);
+		DeleteObject(BackBit);
+		DeleteDC(hdc);
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:

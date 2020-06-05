@@ -47,27 +47,15 @@ void RectTransform::SetValue(Vector3D _position, float _Width, float _Height)
 	Vertex[3].y = position.y + _Height / 2;
 	Vertex[3].z = 1;
 
-	matTRS.Init();
-	matTRS.TransformWorldPosition = position;
+	matTRS.Identity();
 }
 
-void RectTransform::SetFormValue(Vector3D translate, Vector3D Angle, Vector3D scale)
+void RectTransform::SetFormValue(Vector3D translate, Vector3D angle, Vector3D scale)
 {
-	//Matrix4X4 matT;
-	//matT.Init();
 	for (int i = 0; i < 4; i++)
 	{
 		Vertex[i].Viewport_Convert(position);
-
-		//Vertex[i].x += translate.x;
-		//Vertex[i].y += translate.y;
-		//Vertex[i].z += translate.z;
-		//matTRS=matTRS.Matrix4X4Translation(-50, 0, 0);
-		//matT = matTRS.Matrix4X4Translation(translate.x, translate.y, translate.z);
-		//Vertex[i] = matTRS * Vertex[i];
-		//Vertex[i] = matTRS.Matrix4X4Translation(translate.x, translate.y, translate.z) * Vertex[i];
-
-		Vertex[i] = matTRS.Matrix4X4TRS(translate, Angle, scale) * Vertex[i];
+		Vertex[i] = MATRIX4X4TRS(matTRS, translate, angle, scale) * Vertex[i];
 		Vertex[i].Screen_Convert(position);
 	}
 }
