@@ -50,6 +50,37 @@ void Vector3D::Screen_Convert(Vector3D origin)
 	this->y += origin.y;
 }
 
+float Vector3D::Distance()
+{
+	return sqrtf(powf(x, 2) + powf(y, 2) + powf(z, 2));
+}
+
+Vector3D Vector3D::Normalize()
+{
+	Vector3D newVector;
+	float distance = Distance();
+	newVector.x = this->x / distance;
+	newVector.y = this->y / distance;
+	newVector.z = this->z / distance;
+
+	return newVector;
+}
+
+float Vector3D::DotProduct(const Vector3D other)
+{
+	return this->x* other.x + this->y * other.y + this->z * other.z;
+}
+
+Vector3D Vector3D::CrossProduct(const Vector3D other)
+{
+	Vector3D newVector;
+	newVector.x = (this->y * other.z) - (this->z * other.y);
+	newVector.y = (this->z * other.x) - (this->x * other.z);
+	newVector.z = (this->x * other.y) - (this->y * other.x);
+
+	return newVector;
+}
+
 Vector3D& Vector3D::operator=(const Vector3D& other)
 {
 	this->x = other.x;
@@ -59,14 +90,20 @@ Vector3D& Vector3D::operator=(const Vector3D& other)
 	return *this;
 }
 
-/*
-Vector3D& Vector3D::operator*(const Matrix4X4& other)
+Vector3D& Vector3D::operator+(const Vector3D& other)
 {
-	this->x = (x * other.Xaxis.x) + (y * other.Yaxis.x) + (z * other.Zaxis.x) + (w * other.Pos.x);
-	this->y = (x * other.Xaxis.y) + (y * other.Yaxis.y) + (z * other.Zaxis.y) + (w * other.Pos.y);
-	this->z = (x * other.Xaxis.z) + (y * other.Yaxis.z) + (z * other.Zaxis.z) + (w * other.Pos.z);
-	this->w = (x * other.Xaxis.w) + (y * other.Yaxis.w) + (z * other.Zaxis.w) + (w * other.Pos.w);
+	this->x += other.x;
+	this->y += other.y;
+	this->z += other.z;
 
 	return *this;
 }
-*/
+
+Vector3D& Vector3D::operator-(const Vector3D& other)
+{
+	this->x -= other.x;
+	this->y -= other.y;
+	this->z -= other.z;
+
+	return *this;
+}

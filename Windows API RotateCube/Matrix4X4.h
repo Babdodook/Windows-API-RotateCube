@@ -31,7 +31,6 @@ public:
 	void Identity();
 
 	MATRIX4X4 operator*(const MATRIX4X4& other);
-	//Vector3D operator*(const Vector3D& other);
 	Vector3D operator*(const Vector3D other);
 };
 
